@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Visitor Capture</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<h2>Visitor Verification</h2>
+
+<button onclick="getLocation()">Get Location</button>
+<p id="location"></p>
+
+<video id="video" width="300" autoplay></video>
+<br>
+<button onclick="capture()">Capture Photo</button>
+<br>
+<canvas id="canvas" width="300" height="225"></canvas>
+
+<script>
+/* GEO LOCATION */
+function getLocation() {
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      document.getElementById("location").innerText =
+        `Latitude: ${pos.coords.latitude}, Longitude: ${pos.coords.longitude}`;
+    },
+    err => alert("Location permission denied")
+  );
+}
+
+/* CAMERA */
+navigator.mediaDevices.getUserMedia({
+  video: { facingMode: "user" }
+}).then(stream => {
+  document.getElementById("video").srcObject = stream;
+});
+
+function capture() {
+  const canvas = document.getElementById("canvas");
+  const video = document.getElementById("video");
+  canvas.getContext("2d").drawImage(video, 0, 0, 300, 225);
+}
+</script>
+
+</body>
+</html>
